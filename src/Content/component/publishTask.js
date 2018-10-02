@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import './publishTask.css';
 
 class PublishTask extends Component{
     constructor(props) {
@@ -52,7 +53,7 @@ class PublishTask extends Component{
             <div id="loadedPost">
               <div className="card mt-3 mb-3">
                 <div className="card-body">
-                    <textarea
+                    <label
                       name="texts"
                       cols="30"
                       rows="5"

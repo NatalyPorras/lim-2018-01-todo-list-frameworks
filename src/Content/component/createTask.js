@@ -7,13 +7,10 @@ class CrearTask extends Component{
     }
 
     addPost(){
-        if(!!this.textInput.value){
-            this.props.addPost(this.textInput.value);
-            this.textInput.value = '';
-            this.textInput.focus();
-        }else{
-            alert('Ingresa un texto')
-        }        
+       this.props.addPost(this.textInput.value);
+       this.textInput.value = '';
+       this.textInput.focus();
+        
     }
     render(){
         return(

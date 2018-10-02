@@ -64,9 +64,9 @@ class Content extends Component{
                         <div className="col-lg-6 createTask">
                             <CreateTask addPost={this.addPost} />
                         </div>
-                        <div>
+                        <div className="col-lg-6 publishTask">
                             <h3 className="mt-4">Post</h3>
-                            <div className="col-lg-6 publishTask">
+                            <div>
                                 {this.state.messages.map(message => {
 
                                 return (

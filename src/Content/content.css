@@ -15,5 +15,6 @@
 }
 
 .main .publishTask{
+    width: 60%;
     background-color: red;
 }
