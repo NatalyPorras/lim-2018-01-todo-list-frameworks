@@ -4,10 +4,12 @@ import './publishTask.css';
 class PublishTask extends Component{
     constructor(props) {
         super(props);
-        
         this.id = props.id;
+        this.myRef=React.createRef();
+
         this.state={
           textInput:props.content,
+          checkBox:false,
         }
       }
    
@@ -32,7 +34,13 @@ class PublishTask extends Component{
       handleRemove(id) {
         this.props.removePost(id);
       }
-    
+    handleCheck(){
+        const node=this.myRef.current;
+        if(!this.state.checkBox){
+            node.disabled=true;
+        }
+  
+    }
       handleUpdate(e) {
         const postData = {
           body: this.state.textInput,
@@ -47,22 +55,18 @@ class PublishTask extends Component{
           .update(updatesPost);
       }
     render() {
-    
         return (
           <div id="posts">
             <div id="loadedPost">
               <div className="card mt-3 mb-3">
                 <div className="card-body">
-                    <label
+                    <input
                       name="texts"
-                      cols="30"
-                      rows="5"
-                      className="form-control"
+                      ref={this.myRef}
+                      className="form-control cajaTexto"
                       value={this.state.textInput}
                       onChange={this.handleInput.bind(this)}
                     />
-
-
                   <div>
                     <a
                       onClick={() => this.handleRemove(this.id)}
@@ -77,7 +81,7 @@ class PublishTask extends Component{
                     >
                       Edit
                     </a>
-
+                    <input type="checkbox"  onChange={this.handleCheck.bind(this)}></input>
                   </div>
 
                 </div>

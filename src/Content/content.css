@@ -1,20 +1,11 @@
 
-.main{
-    background-color: blue;
-}
-.main .container{
-    background-color: pink;
-}
 .main .row{
     width: 100%;
-    background-color: green;
 }
 .main .createTask{
     padding: 5px;
-    background-color: yellow;
 }
 
 .main .publishTask{
     width: 60%;
-    background-color: red;
 }
