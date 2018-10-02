@@ -4,7 +4,6 @@
   "private": true,
   "homepage": "https://natalyporras.github.io/lim-2018-01-todo-list-frameworks",
   "dependencies": {
-    "gh-pages": "^2.0.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-scripts": "^1.1.5"
