@@ -12,23 +12,22 @@ class Content extends Component{
             messages: []
         };
         this.post = window.firebase.initializeApp(config);
-        this.db = this.post.database().ref().child('task')
-        this.addPost = this.addPost.bind(this);
-        this.removePost = this.removePost.bind(this);
+        this.db = this.post.database().ref().child('tarea')
+        this.addTask = this.addTask.bind(this);
+        this.removeTask = this.removeTask.bind(this);
 
 
     }
 
     componentDidMount() {
         let { messages } = this.state;
-
-        console.log(this.db)
     
         this.db.orderByChild('body').on('child_added', snap => {
 
             messages.push({
               id: snap.key,
               body: snap.val().body,
+              checkBox:snap.val().checkBox,
             });
           this.setState({ messages });
         })
@@ -43,18 +42,14 @@ class Content extends Component{
         });
     }
     
-  removePost(id) {
+  removeTask(id) {
     this.db.child(id).remove();
   }
-    addPost(message) {
-        // let {messages} = this.state;
-        // messages.push({
-        //     id:messages.length +1,
-        //     body:message
-        // })
-        // this.setState({ messages })
-
-        this.db.push().set({ body: message })
+    addTask(message) {
+        this.db.push().set({ 
+            body: message,
+            checkBox:false
+        })
     }
     render(){
         return(
@@ -62,19 +57,19 @@ class Content extends Component{
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-6 createTask">
-                            <CreateTask addPost={this.addPost} />
+                            <CreateTask addTask={this.addTask} />
                         </div>
                         <div className="col-lg-6 publishTask">
-                            <h3 className="mt-4">Post</h3>
+                            <h3 className="mt-4">Lista de Tareas</h3>
                             <div>
                                 {this.state.messages.map(message => {
-
                                 return (
                                     <PublishTask
                                     content={message.body}
                                     id={message.id}
                                     key={message.id}
-                                    removePost={this.removePost}
+                                    checkBox={message.checkBox}
+                                    removeTask={this.removeTask}
                                     />
                                 );
                                 })}

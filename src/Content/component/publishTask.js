@@ -9,7 +9,8 @@ class PublishTask extends Component{
 
         this.state={
           textInput:props.content,
-          checkBox:false,
+          checkBox:props.checkBox,
+          aux:0
         }
       }
    
@@ -19,40 +20,76 @@ class PublishTask extends Component{
         })
       }
       handleChange(){
-        const postData = {
+        const task = {
           body: this.state.textInput,
         };
-        const updatesPost = {};
+        const updatesTask = {};
     
-        updatesPost["/task/" + this.id] = postData;
+        updatesTask["/tarea/" + this.id] = task;
     
         return window.firebase
           .database()
           .ref()
-          .update(updatesPost);
+          .update(updatesTask);
       }
       handleRemove(id) {
-        this.props.removePost(id);
+        this.props.removeTask(id);
       }
-    handleCheck(){
+
+    handleCheck(e){
+        
         const node=this.myRef.current;
-        if(!this.state.checkBox){
+        if(this.state.aux === 0){
             node.disabled=true;
+            this.setState({
+                checkBox:e.target.checked
+            })
+            const task = {
+                body: this.state.textInput,
+                checkBox: this.state.checkBox,
+              };
+              const updatesTask = {};
+          
+              updatesTask["/tarea/" + this.id] = task;
+          
+              return window.firebase
+                .database()
+                .database()
+                .ref()
+                .update(updatesTask);
+        }else{
+            node.disabled=false;
+            this.setState({
+                checkBox:e.target.checked
+            })
+            const task = {
+                body: this.state.textInput,
+                checkBox: this.state.checkBox,
+              };
+              const updatesTask = {};
+          
+              updatesTask["/tarea/" + this.id] = task;
+          
+              return window.firebase
+                .database()
+                .ref()
+                .update(updatesTask);
         }
-  
+        
     }
       handleUpdate(e) {
-        const postData = {
+        const task = {
           body: this.state.textInput,
+          checkBox: this.state.checkBox
         };
-        const updatesPost = {};
+        const updatesTask = {};
     
-        updatesPost["/task/" + this.id] = postData;
+        updatesTask["/tarea/" + this.id] = task;
     
         return window.firebase
           .database()
           .ref()
-          .update(updatesPost);
+          .update(updatesTask);
       }
     render() {
         return (
@@ -71,17 +108,15 @@ class PublishTask extends Component{
                     <a
                       onClick={() => this.handleRemove(this.id)}
                       className="btn btn-primary"
-                    >
-                      Delete
+                    ><i className="far fa-trash-alt"></i>
                     </a>
                     <a
                       href=""
                       onClick={() => this.handleChange()}
                       className="btn btn-primary"
-                    >
-                      Edit
+                    ><i className="far fa-edit"></i>
                     </a>
-                    <input type="checkbox"  onChange={this.handleCheck.bind(this)}></input>
+                    <input type="checkbox" checked={this.state.checkBox} onChange={this.handleCheck.bind(this)}></input><span>Terminado</span>
                   </div>
 
                 </div>
