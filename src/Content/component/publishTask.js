@@ -6,6 +6,7 @@ class PublishTask extends Component{
         super(props);
         this.id = props.id;
         this.myRef=React.createRef();
+        this.myCheck=React.createRef();
 
         this.state={
           textInput:props.content,
@@ -13,7 +14,20 @@ class PublishTask extends Component{
           aux:0
         }
       }
-   
+      componentDidMount(){
+        this.myRef.current.disabled=this.state.checkBox;
+        // console.log(this.myCheck.current.checked)
+        // this.setState({checkBox: this.myCheck.current.checked})
+        const node=this.myRef.current;
+
+        if (this.state.checkBox) {
+        node.disabled=true;
+        this.setState({aux:1});
+      }else{
+        node.disabled=false;
+        this.setState({aux:0});
+      }
+      }
       handleInput(e){
         this.setState({
           textInput:e.target.value
@@ -32,49 +46,45 @@ class PublishTask extends Component{
           .ref()
           .update(updatesTask);
       }
+
       handleRemove(id) {
         this.props.removeTask(id);
       }
 
     handleCheck(e){
-        
         const node=this.myRef.current;
         if(this.state.aux === 0){
             node.disabled=true;
-            this.setState({
-                checkBox:e.target.checked
-            })
             const task = {
                 body: this.state.textInput,
-                checkBox: this.state.checkBox,
+                checkBox: e.target.checked,
               };
               const updatesTask = {};
           
               updatesTask["/tarea/" + this.id] = task;
-          
+          this.setState({checkBox: e.target.checked, aux: 1})
               return window.firebase
-                .database()
                 .database()
                 .ref()
                 .update(updatesTask);
         }else{
             node.disabled=false;
-            this.setState({
-                checkBox:e.target.checked
-            })
             const task = {
                 body: this.state.textInput,
-                checkBox: this.state.checkBox,
+                checkBox: e.target.checked,
               };
               const updatesTask = {};
           
               updatesTask["/tarea/" + this.id] = task;
-          
+          this.setState({checkBox: e.target.checked, aux: 0})          
               return window.firebase
                 .database()
                 .ref()
                 .update(updatesTask);
-        }
+        } 
+      //   this.setState({
+      //     checkBox:e.target.checked
+      // })
         
     }
       handleUpdate(e) {
@@ -116,7 +126,7 @@ class PublishTask extends Component{
                       className="btn btn-primary"
                     ><i className="far fa-edit"></i>
                     </a>
-                    <input type="checkbox" checked={this.state.checkBox} onChange={this.handleCheck.bind(this)}></input><span>Terminado</span>
+                    <input type="checkbox" ref={this.myCheck} checked={this.state.checkBox} onChange={this.handleCheck.bind(this)}></input><span>Terminado</span>
                   </div>
 
                 </div>
